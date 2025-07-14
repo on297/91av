@@ -2,7 +2,8 @@ const video = document.getElementById('video');
 const overlay = document.getElementById('overlay');
 const continueBtn = document.getElementById('continueBtn');
 
-const videoUrl = "https://v2024.fhbbff.com/20241206/ggyzhRfG/index.m3u8";
+const videoUrl = "https://on297.github.io/91av/mm66.mp4
+";
 
 if (Hls.isSupported()) {
   const hls = new Hls();
