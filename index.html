@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>分享后继续观看</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="overlay" class="overlay hidden">
+    <div class="modal">
+      <p>请分享后点击继续观看</p>
+      <button id="continueBtn">我已分享，继续观看</button>
+    </div>
+  </div>
+
+  <div class="video-container">
+    <video id="video" controls></video>
+  </div>
+
+  <script src="hls.min.js"></script>
+  <script src="player.js"></script>
+</body>
+</html>
