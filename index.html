@@ -73,6 +73,7 @@
       max-width: 300px;
       margin: 20px 0;
       border-radius: 8px;
+      display: none;
     }
     .mask button {
       padding: 10px 20px;
@@ -82,6 +83,7 @@
       background-color: #00c300;
       color: #000;
       cursor: pointer;
+      margin-top: 15px;
     }
   </style>
 </head>
@@ -106,10 +108,16 @@
   </div>
 
   <div id="mask" class="mask" style="display:none;">
-    <h2>📣 请先将下方二维码转发到微信群</h2>
-    <p>转发后点击下方按钮解锁完整视频</p>
-    <img src="https://via.placeholder.com/300x300.png?text=请替换为你的二维码" alt="二维码占位图">
-    <button onclick="unlockVideo()">我已转发</button>
+    <div id="maskStep1">
+      <h2>📣 请分享到微信群后继续观看</h2>
+      <p>点击下方按钮开始分享</p>
+      <button onclick="showShareQR()">立即分享</button>
+    </div>
+    <div id="maskStep2" style="display:none;">
+      <h2>📤 截图以下二维码并发送至微信群</h2>
+      <img src="https://via.placeholder.com/300x300.png?text=请替换为你的二维码" alt="二维码图">
+      <button onclick="unlockVideo()">我已分享</button>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
@@ -117,6 +125,10 @@
     const video = document.getElementById('video');
     const buttons = document.querySelectorAll('.video-button');
     const mask = document.getElementById('mask');
+    const maskStep1 = document.getElementById('maskStep1');
+    const maskStep2 = document.getElementById('maskStep2');
+    const qrImg = maskStep2.querySelector('img');
+
     let hls;
     let currentUrl = '';
     let saveInterval = null;
@@ -194,6 +206,8 @@
           if (video.currentTime >= trialDuration) {
             video.pause();
             mask.style.display = 'flex';
+            maskStep1.style.display = 'block';
+            maskStep2.style.display = 'none';
             clearInterval(checkTimer);
           }
         }, 1000);
@@ -212,6 +226,11 @@
       });
     }
 
+    function showShareQR() {
+      maskStep1.style.display = 'none';
+      maskStep2.style.display = 'block';
+    }
+
     function unlockVideo() {
       mask.style.display = 'none';
       isUnlocked = true;
@@ -223,7 +242,7 @@
       return /MicroMessenger/i.test(navigator.userAgent);
     }
 
-    // 初始化第一个视频
+    // 默认播放第一个视频
     loadVideo(buttons[0].dataset.url.trim(), 0);
 
     // 切换视频
@@ -233,10 +252,11 @@
       });
     });
 
-    // 安卓首次触摸播放权限
+    // 安卓首次触摸触发播放权限
     document.body.addEventListener('touchstart', () => {
       video.play().catch(() => {});
     }, { once: true });
   </script>
+
 </body>
 </html>
